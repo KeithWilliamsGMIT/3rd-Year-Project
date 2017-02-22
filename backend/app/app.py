@@ -40,4 +40,6 @@ def stream(channel):
 
 if __name__ == '__main__':
 	app.debug = True
-	app.run(threaded=True)
+	
+	# Set the host to 0.0.0.0 to make it accessible to other
+	app.run(host="0.0.0.0", threaded=True)

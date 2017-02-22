@@ -1,3 +1,9 @@
 # Python
 __pycache__/
 venv/
+
+# Angular2
+node_modules/
+
+# NPM
+npm-debug.log
