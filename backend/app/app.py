@@ -7,9 +7,16 @@ DESCRIPTION:	Provide a RESTful API for the application and serve the files
 
 from flask import Flask, Response, request, make_response, render_template, session
 from databases import event_stream, post_message, get_messages
+from flask_cors import CORS
 import datetime
 
 app = Flask(__name__)
+
+# Researched CORS error - https://daveceddia.com/access-control-allow-origin-cors-errors-in-angular/
+# Initially fixed it with the following - response.headers['Access-Control-Allow-Origin'] = '*'
+# However, this would become redundant as more endpoints are added
+# After furthre research I found Flask-Cors - http://flask-cors.readthedocs.io/en/latest/
+CORS(app)
 
 @app.route("/")
 def index(**kwargs):

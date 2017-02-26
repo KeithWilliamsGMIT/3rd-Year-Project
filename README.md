@@ -66,13 +66,15 @@ The application should now be available at [http://0.0.0.0:5000](http://0.0.0.0:
 
 *** NOTE THAT THE FRONT END IS NOT CURRENTLY BEING USED ***
 
-You will need to install NodeJS in order to run the angular2 frontend. The easiest way to manage NodeJS installations is to use npm. Use the follwing commands to install the dependencies using npm.
-
 Navigate to the frontend directory.
 
 ```
 cd frontend
+```
 
+You will need to install NodeJS in order to run the angular2 frontend. The easiest way to manage NodeJS installations is to use npm. Use the follwing commands to install the dependencies using npm.
+
+```
 # Install project dependencies
 npm install
 ```
