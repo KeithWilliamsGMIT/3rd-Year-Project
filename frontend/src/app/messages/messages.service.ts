@@ -1,7 +1,7 @@
 // Tutorial - https://coursetro.com/posts/code/20/Angular-2-Services-Tutorial---Understanding-&-Creating-Them
 
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 
 @Injectable()
 export class MessagesService {
@@ -11,6 +11,13 @@ export class MessagesService {
 	public getMessages() {
 		return this.http
 			.get('http://0.0.0.0:5000/api/const/messages')
+			.map(response => response.json());
+	}
+	
+	// Send a message to the Flask API
+	public postMessage(body:string) {
+		return this.http
+			.post('http://0.0.0.0:5000/api/const/message', body)
 			.map(response => response.json());
 	}
 }

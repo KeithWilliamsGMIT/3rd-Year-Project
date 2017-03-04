@@ -1,1 +1,12 @@
 <h1>Messages</h1>
+
+<div class="message" *ngFor="let message of messages;">
+	<span class="sender">{{message.sender}}> </span>
+	<span>{{message.message}}</span>
+	<span class="date"> ({{message.date}})</span>
+</div>
+
+<form (ngSubmit)="onSubmit()">
+	<input type="text" name="message" [(ngModel)]="message.message" required/>
+	<input type="submit" value="Send"/>
+</form>

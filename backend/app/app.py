@@ -9,6 +9,7 @@ from flask import Flask, Response, request, make_response, render_template, sess
 from databases import event_stream, post_message, get_messages
 from flask_cors import CORS
 import datetime
+import json
 
 app = Flask(__name__)
 
@@ -24,7 +25,10 @@ def index(**kwargs):
 
 @app.route('/api/<channel>/message', methods=['POST'])
 def message(channel):
-	message = request.form['message']
+	# Get data from body of request. Convert byte string into unicode string
+	body = request.get_json()
+	message = body['message']
+	
 	# This is a temperary username until authentication is implemented
 	username = 'anonymous'
 	now = datetime.datetime.now().replace(microsecond=0).time()
@@ -33,9 +37,9 @@ def message(channel):
 	data = {"channel": channel, "sender": username, "message": message, "date": now.isoformat()}
 	
 	post_message(channel, data)
-
-	# Return something to avoid the "ValueError: View function did not return a response" error
-	return 'OK'
+	
+	# Must return something to avoid the "ValueError: View function did not return a response" error
+	return json.dumps({"status": "OK"})
 
 @app.route('/api/<channel>/messages', methods=['GET'])
 def messages(channel):
