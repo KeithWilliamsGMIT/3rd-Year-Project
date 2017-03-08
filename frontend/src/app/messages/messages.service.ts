@@ -1,7 +1,11 @@
 // Tutorial - https://coursetro.com/posts/code/20/Angular-2-Services-Tutorial---Understanding-&-Creating-Them
 
+/// <reference path="./see.d.ts"/>
+
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+import { Observer } from 'rxjs/Observer';
 
 @Injectable()
 export class MessagesService {
@@ -19,5 +23,18 @@ export class MessagesService {
 		return this.http
 			.post('http://0.0.0.0:5000/api/const/message', body)
 			.map(response => response.json());
+	}
+	
+	// Subscribe to Redis channel
+	public subscribeToChannel(): Observable<any> {
+		return Observable.create((observer: Observer<any>) => {
+			const eventSource = new EventSource('http://0.0.0.0:5000/api/const/stream');
+			eventSource.onmessage = x => observer.next(x.data);
+			eventSource.onerror = x => observer.error(x);
+
+			return () => {
+				eventSource.close();
+			};
+		});
 	}
 }
