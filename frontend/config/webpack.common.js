@@ -37,6 +37,21 @@ module.exports = {
 				test: /\.css$/,
 				include: helpers.root('src', 'app'),
 				loader: 'raw-loader'
+			},
+			{
+				test: /\.scss$/,
+				loaders: ['raw-loader', 'sass-loader']
+			},
+			{
+				test: /\.(woff2?|ttf|eot|svg)$/,
+				// Change url to url-loaded to fix
+				// throw new Error("Module '" + loader.path + "' is not a loader (must have normal or pitch function)");
+				loader: 'url-loader?limit=10000'
+			},
+			// Bootstrap 4
+			{
+				test: /bootstrap\/dist\/js\/umd\//,
+				loader: 'imports?jQuery=jquery'
 			}
 		]
 	},
@@ -56,6 +71,13 @@ module.exports = {
 		
 		new HtmlWebpackPlugin({
 			template: 'src/index.html'
+		}),
+		
+		// JQuery for bootstrap
+		new webpack.ProvidePlugin({
+			jQuery: 'jquery',
+			$: 'jquery',
+			jquery: 'jquery'
 		})
 	]
 };

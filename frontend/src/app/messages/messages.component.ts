@@ -6,7 +6,7 @@ import { Message } from './message';
 @Component({
 	selector: 'messages',
 	templateUrl: './messages.component.html',
-	styleUrls: ['./messages.component.css'],
+	styleUrls: ['./messages.component.scss'],
 	providers: [MessagesService, Message]
 })
 

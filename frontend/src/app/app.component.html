@@ -1,8 +1,15 @@
 <main>
-	<h1>Messaging app</h1>
-	<a [routerLink]="['/contacts']">Contacts</a>
-	<a [routerLink]="['/messages']">Messages</a>
-	<div class="outer-outlet">
+	<nav class="navbar fixed-top navbar-custom">
+		<span class="navbar-brand">Messaging App</span>
+		
+		<!-- This navigation bar is only temporary and will not be used for navigation in the final release -->
+		<ul class="nav navbar-nav">
+			<li class="nav-item"><a class="nav-link" [routerLink]="['/contacts']">Contacts</a></li>
+			<li class="nav-item"><a class="nav-link" [routerLink]="['/messages']">Messages</a></li>
+		</ul>
+	</nav>
+	
+	<div class="container fill outer-outlet">
 		<router-outlet></router-outlet>
 	</div>
 </main>
