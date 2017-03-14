@@ -7,6 +7,7 @@ import { FormsModule }   from '@angular/forms';
 import { routes } from './app.routes';
 import { DefaultRequestOptions } from './app.requests';
 import { AppComponent } from './app.component';
+import { AccountComponent } from './account/account.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { MessagesComponent } from './messages/messages.component';
 
@@ -20,6 +21,7 @@ import { MessagesComponent } from './messages/messages.component';
 		RouterModule.forRoot(routes)
 	],
 	declarations: [
+		AccountComponent,
 		ContactsComponent,
 		MessagesComponent,
 		AppComponent
