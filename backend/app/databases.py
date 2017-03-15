@@ -37,8 +37,25 @@ mongo = pymongo.MongoClient(
 # Get the Mongo database
 mongodb = mongo['test-database']
 
+# Get the collection of users
+users_collection = mongodb['users-collection']
+
 # Get the collection of messages
 messages_collection = mongodb['messages-collection']
+
+def is_username_unique(username):
+	# Return the user document with the the given username if it exists
+	# Otherwise return None
+	users_with_username = users_collection.find_one({'username': username})
+	
+	# If None was returned the username is unique and return true
+	return users_with_username == None
+
+# Create a new user document in MongoDB
+def create_user(user):
+	# Create a new document with the users data in the users collection in the mongo database
+	users_collection.insert_one(user)
+
 
 def event_stream(channel):
 	pubsub = red.pubsub()
@@ -70,7 +87,7 @@ def get_messages(channel):
 	# Get each document in the messages-collection where the channel
 	# value in the document is the same as the channel the that is
 	# given in the URL.
-	messages = messages_collection.find( {'channel': channel } )
+	messages = messages_collection.find({'channel': channel})
 	
 	# The find() method returns a cursor. The dumps() method is used
 	# to create a JSON representation of the data.
