@@ -6,7 +6,7 @@ DESCRIPTION:	Provide a RESTful API for the application and serve the files
 """
 
 from flask import Flask, Response, request, make_response, render_template
-from databases import is_username_unique, create_user, event_stream, post_message, get_messages
+from databases import is_username_unique, create_user, get_user, event_stream, post_message, get_messages
 from models import User
 from flask_cors import CORS
 import datetime
@@ -58,6 +58,30 @@ def register():
 		create_user(user_data)
 		return json.dumps({"status": "success", "message": "Hooray! You're now signed up!" })
 
+@app.route('/api/login', methods=['POST'])
+def login():
+	data = request.get_json()
+	username = data['username']
+	password = data['password']
+	
+	# Get the user with that username from the database
+	user_data = get_user(username)
+	
+	print(user_data)
+	
+	# If a user with that username exists
+	if user_data is None:
+		return json.dumps({"status": "error", "message": "Hey, thats the wrong username!"})
+	else:
+		# Create a user object from the user_data
+		user = User(user_data['username'], user_data['password'], True)
+		
+		# Check if the password matches the password stored in the database
+		if not user.verify_password(password):
+			return json.dumps({"status": "error", "message": "Hey, that username and password don't match!"})
+		else:
+			return json.dumps({"status": "success", "message": "You're now logged in!"})
+	
 @app.route('/api/<channel>/message', methods=['POST'])
 def message(channel):
 	# Get data from body of request. Convert byte string into unicode string

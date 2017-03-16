@@ -63,9 +63,6 @@ python3 app.py
 The application should now be available at [http://0.0.0.0:5000](http://0.0.0.0:5000).
 
 ##### Setting uo the front end
-
-*** NOTE THAT THE FRONT END IS NOT CURRENTLY BEING USED ***
-
 Navigate to the frontend directory.
 
 ```

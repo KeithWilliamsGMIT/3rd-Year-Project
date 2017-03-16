@@ -23,10 +23,7 @@ class User:
 	
 	# Return true if the given password matches this users password
 	def verify_password(self, password):
-		if user:
-			return bcrypt.verify(password, self.password)
-		else:
-			return False
+		return bcrypt.verify(password, self.password)
 	
 	# Return this object in json format
 	def to_json(self):

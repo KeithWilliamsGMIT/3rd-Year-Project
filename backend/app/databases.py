@@ -56,7 +56,13 @@ def create_user(user):
 	# Create a new document with the users data in the users collection in the mongo database
 	users_collection.insert_one(user)
 
-
+# Retrieve and return a user document with a matching username from MongoDB
+def get_user(username):
+	# Get the document or None if no user document with the given username exists
+	user = users_collection.find_one({'username': username})
+	
+	return user
+	
 def event_stream(channel):
 	pubsub = red.pubsub()
 	pubsub.subscribe(channel)
