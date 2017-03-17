@@ -4,6 +4,8 @@
 .container {
 	position: relative;
 	max-width: 460px;
+	// If the form is smaller than 317px then the Confirm Password label will span two lines
+	min-width: 317px;
 	width: 100%;
 	margin: 0 auto 100px;
 }
@@ -367,4 +369,14 @@
 		bottom: 30px;
 		opacity: 0;
 	}
+}
+
+/* Error Messages */
+.card .error {
+	margin: 20px 60px;
+	color: $primary-colour;
+}
+
+.card.alt .error {
+	color: #ffffff;
 }

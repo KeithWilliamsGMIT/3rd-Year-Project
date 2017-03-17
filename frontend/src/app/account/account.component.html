@@ -10,17 +10,19 @@
 			<h1 class="title">Login</h1>
 			<form (ngSubmit)="onLogin()">
 				<div class="input-container">
-					<input type="text" id="loginUsername" required="required"/>
+					<input type="text" name="loginUsername" id="loginUsername" [(ngModel)]="loginForm.username" required="required"/>
 					<label for="loginUsername">Username</label>
 					<div class="bar"></div>
 				</div>
 
 				<div class="input-container">
-					<input type="password" id="loginPassword" required="required"/>
+					<input type="password" name="loginPassword" id="loginPassword" [(ngModel)]="loginForm.password" required="required"/>
 					<label for="loginPassword">Password</label>
 					<div class="bar"></div>
 				</div>
-
+				
+				<div name="loginErrorMessage" class="error" [hidden]="loginForm.hasErrorMessage()" [innerHtml]="loginForm.errorMessage"></div>
+				
 				<div class="button-container">
 					<button>
 						<span>Go</span>
@@ -40,20 +42,25 @@
 
 			<form (ngSubmit)="onSignup()">
 				<div class="input-container">
-					<input type="text" id="signupUsername" required="required"/>
+					<input type="text" name="signUpUsername" id="signupUsername" [(ngModel)]="signUpForm.username" required="required"/>
 					<label for="signupUsername">Username</label>
 					<div class="bar"></div>
 				</div>
+				
 				<div class="input-container">
-					<input type="password" id="signupPassword" required="required"/>
+					<input type="password" name="signUpPassword" id="signupPassword" [(ngModel)]="signUpForm.password" required="required"/>
 					<label for="signupPassword">Password</label>
 					<div class="bar"></div>
 				</div>
+				
 				<div class="input-container">
-					<input type="password" id="signupConfirmPassword" required="required"/>
+					<input type="password" name="signUpConfirmPassword" id="signupConfirmPassword" [(ngModel)]="signUpForm.confirmPassword" required="required"/>
 					<label for="signupConfirmPassword">Confirm Password</label>
 					<div class="bar"></div>
 				</div>
+				
+				<div name="signUpErrorMessage" class="error" [hidden]="signUpForm.hasErrorMessage()" [innerHtml]="signUpForm.errorMessage"></div>
+				
 				<div class="button-container">
 					<button type="submit">
 						<span>Ready!</span>
