@@ -1,5 +1,6 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router} from '@angular/router';
+import { AuthenticationService } from '../authentication/authentication.service'
 import { AccountService } from './account.service';
 import { LoginForm } from './login';
 import { SignUpForm } from './signup';
@@ -8,15 +9,24 @@ import { SignUpForm } from './signup';
 	selector: 'account',
 	templateUrl: './account.component.html',
 	styleUrls: ['./account.component.scss'],
-	providers: [AccountService, LoginForm, SignUpForm]
+	providers: [AuthenticationService, AccountService, LoginForm, SignUpForm]
 })
 
-export class AccountComponent {
+export class AccountComponent implements OnInit {
 	public onLoginForm: boolean = true;
 	private zone: NgZone;
 	
-	public constructor(private router:Router, private accountService:AccountService, public loginForm:LoginForm, public signUpForm:SignUpForm) {
+	public constructor(private router:Router, private authenticationService:AuthenticationService, private accountService:AccountService, public loginForm:LoginForm, public signUpForm:SignUpForm) {
 		this.zone = new NgZone({enableLongStackTrace: false});
+	}
+	
+	// Called after the constructor
+	public ngOnInit(): void {
+		// If the user is already logged in progress to the contacts page
+		if (this.authenticationService.isLoggedIn()) {
+			// Go to the next page
+			this.nextPage();
+		}
 	}
 	
 	// Toggle the onLogin variable
@@ -29,10 +39,9 @@ export class AccountComponent {
 		this.accountService.postLogin(JSON.stringify(this.loginForm)).subscribe(response => {
 			this.zone.run(() => {
 				if (response.status == "error") {
-					console.log(response.message);
 					this.loginForm.errorMessage = response.message;
 				} else {
-					this.progressToContacts();
+					this.authenticate(response.access_token);
 				}
 			});
 		});
@@ -45,18 +54,26 @@ export class AccountComponent {
 				if (response.status == "error") {
 					this.signUpForm.errorMessage = response.message;
 				} else {
-					this.progressToContacts();
+					this.authenticate(response.access_token);
 				}
 			});
 		});
 	}
 	
-	private progressToContacts(): void {
+	private authenticate(accessToken: string): void {
+		// Store the authentication token
+		this.authenticationService.logIn(accessToken);
+		
 		// Clear both forms
 		this.signUpForm.clear();
 		this.loginForm.clear();
 		
+		// Go to the next page
+		this.nextPage();
+	}
+	
+	private nextPage() {
 		// Navigate to the contacts page
-		this.router.navigate(['/contacts']);
+		this.router.navigate(['contacts']);
 	}
 }

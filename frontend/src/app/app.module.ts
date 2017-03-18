@@ -6,6 +6,10 @@ import { FormsModule }   from '@angular/forms';
 
 import { routes } from './app.routes';
 import { DefaultRequestOptions } from './app.requests';
+
+import { AuthenticationService } from './authentication/authentication.service';
+import { AuthenticationGuard } from './authentication/authentication-guard';
+
 import { AppComponent } from './app.component';
 import { AccountComponent } from './account/account.component';
 import { ContactsComponent } from './contacts/contacts.component';
@@ -26,7 +30,11 @@ import { MessagesComponent } from './messages/messages.component';
 		MessagesComponent,
 		AppComponent
 	],
-	providers: [ {provide: RequestOptions, useClass: DefaultRequestOptions } ],
+	providers: [
+		{provide: RequestOptions, useClass: DefaultRequestOptions },
+		AuthenticationGuard,
+		AuthenticationService
+	],
 	bootstrap: [ AppComponent ]
 })
 

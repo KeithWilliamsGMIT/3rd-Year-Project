@@ -6,11 +6,15 @@ DESCRIPTION:	Provide a RESTful API for the application and serve the files
 """
 
 from flask import Flask, Response, request, make_response, render_template
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token
+from flask_cors import CORS
+
 from databases import is_username_unique, create_user, get_user, event_stream, post_message, get_messages
 from models import User
-from flask_cors import CORS
+
 import datetime
 import json
+import os
 
 app = Flask(__name__)
 
@@ -20,15 +24,19 @@ app = Flask(__name__)
 # After furthre research I found Flask-Cors - http://flask-cors.readthedocs.io/en/latest/
 CORS(app)
 
+# flask_jwt_extended documentation - http://flask-jwt-extended.readthedocs.io/en/latest/basic_usage.html
+# Setup the Flask-JWT-Extended extension
+jwt = JWTManager(app)
+
 @app.route('/api/register', methods=['POST'])
 def register():
 	# DEFINE CRITERIA FOR REGISTRATION
 	MINIMUM_PASSWORD_LENGTH = 8
 	
-	data = request.get_json()
-	username = data['username']
-	password = data['password']
-	confirmPassword = data['confirmPassword']
+	body = request.get_json()
+	username = body['username']
+	password = body['password']
+	confirmPassword = body['confirmPassword']
 	
 	# Check if username is not empty
 	if len(username) < 1:
@@ -60,14 +68,12 @@ def register():
 
 @app.route('/api/login', methods=['POST'])
 def login():
-	data = request.get_json()
-	username = data['username']
-	password = data['password']
+	body = request.get_json()
+	username = body['username']
+	password = body['password']
 	
 	# Get the user with that username from the database
 	user_data = get_user(username)
-	
-	print(user_data)
 	
 	# If a user with that username exists
 	if user_data is None:
@@ -80,9 +86,13 @@ def login():
 		if not user.verify_password(password):
 			return json.dumps({"status": "error", "message": "Hey, that username and password don't match!"})
 		else:
-			return json.dumps({"status": "success", "message": "You're now logged in!"})
+			# Generate an access token using an identity
+			# An identity can be any data that is json serializable
+			access_token = create_access_token(identity=username)
+			return json.dumps({"status": "success", "message": "You're now logged in!", "access_token": access_token})
 	
 @app.route('/api/<channel>/message', methods=['POST'])
+@jwt_required
 def message(channel):
 	# Get data from body of request. Convert byte string into unicode string
 	body = request.get_json()
@@ -101,15 +111,20 @@ def message(channel):
 	return json.dumps({"status": "OK"})
 
 @app.route('/api/<channel>/messages', methods=['GET'])
+@jwt_required
 def messages(channel):
 	return get_messages(channel)
 
 @app.route('/api/<channel>/stream')
+@jwt_required
 def stream(channel):
 	return Response(event_stream(channel), mimetype="text/event-stream")
 
 if __name__ == '__main__':
 	app.debug = True
+	
+	# The secret key is used to generate access tokens
+	app.secret_key = os.urandom(24)
 	
 	# Set the host to 0.0.0.0 to make it accessible to other
 	app.run(host="0.0.0.0", threaded=True)
