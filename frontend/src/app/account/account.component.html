@@ -21,6 +21,15 @@
 					<div class="bar"></div>
 				</div>
 				
+				<!-- Remember me -->
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="loginCheckbox" [(ngModel)]="loginForm.rememberMe">
+						<span class="cr"><i class="cr-icon">&#10004;</i></span>
+						Remember me
+					</label>
+				</div>
+				
 				<div name="loginErrorMessage" class="error" [hidden]="loginForm.hasErrorMessage()" [innerHtml]="loginForm.errorMessage"></div>
 				
 				<div class="button-container">

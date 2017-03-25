@@ -9,7 +9,7 @@ import { SignUpForm } from './signup';
 	selector: 'account',
 	templateUrl: './account.component.html',
 	styleUrls: ['./account.component.scss'],
-	providers: [AuthenticationService, AccountService, LoginForm, SignUpForm]
+	providers: [AccountService, LoginForm, SignUpForm]
 })
 
 export class AccountComponent implements OnInit {
@@ -27,6 +27,8 @@ export class AccountComponent implements OnInit {
 			// Go to the next page
 			this.nextPage();
 		}
+		
+		this.loginForm.rememberMe = this.authenticationService.getRememberMeValue();
 	}
 	
 	// Toggle the onLogin variable
@@ -62,7 +64,7 @@ export class AccountComponent implements OnInit {
 	
 	private authenticate(accessToken: string): void {
 		// Store the authentication token
-		this.authenticationService.logIn(accessToken);
+		this.authenticationService.logIn(accessToken, this.loginForm.rememberMe);
 		
 		// Clear both forms
 		this.signUpForm.clear();

@@ -4,7 +4,7 @@ export class BaseForm {
 	public username: string;
 	public password: string;
 	public errorMessage: string;
-
+	
 	public hasErrorMessage(): boolean {
 		return this.errorMessage == "";
 	}

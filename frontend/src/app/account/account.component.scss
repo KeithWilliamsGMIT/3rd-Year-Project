@@ -380,3 +380,42 @@
 .card.alt .error {
 	color: #ffffff;
 }
+
+/* Remember me option */
+.checkbox label:after {
+	//content: '';
+	display: table;
+	clear: both;
+}
+
+.checkbox .cr {
+	position: relative;
+	display: inline-block;
+	border: 1px solid #a9a9a9;
+	border-radius: .25em;
+	width: 1.3em;
+	height: 1.3em;
+	float: left;
+	margin-right: .5em;
+}
+
+.checkbox label input {
+	display: none;
+}
+
+.checkbox .cr .cr-icon {
+    position: absolute;
+    font-size: .8em;
+    line-height: 0;
+    top: 50%;
+    left: 20%;
+}
+
+.checkbox label input[type="checkbox"] + .cr > .cr-icon {
+    opacity: 0;
+    transition: all .1s ease-in;
+}
+
+.checkbox label input[type="checkbox"]:checked + .cr > .cr-icon {
+    opacity: 1;
+}

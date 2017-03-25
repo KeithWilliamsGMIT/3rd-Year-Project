@@ -9,6 +9,7 @@ import { DefaultRequestOptions } from './app.requests';
 
 import { AuthenticationService } from './authentication/authentication.service';
 import { AuthenticationGuard } from './authentication/authentication-guard';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 import { AppComponent } from './app.component';
 import { AccountComponent } from './account/account.component';
@@ -22,6 +23,7 @@ import { MessagesComponent } from './messages/messages.component';
 		// http://stackoverflow.com/questions/33721276/angular-2-no-provider-for-http
 		HttpModule,
 		FormsModule,
+		AuthenticationModule,
 		RouterModule.forRoot(routes)
 	],
 	declarations: [
@@ -31,7 +33,10 @@ import { MessagesComponent } from './messages/messages.component';
 		AppComponent
 	],
 	providers: [
-		{provide: RequestOptions, useClass: DefaultRequestOptions },
+		{
+			provide: RequestOptions,
+			useClass: DefaultRequestOptions
+		},
 		AuthenticationGuard,
 		AuthenticationService
 	],

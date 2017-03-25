@@ -3,13 +3,15 @@
 /// <reference path="./see.d.ts"/>
 
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+//import { Http } from '@angular/http';
+import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Rx';
 import { Observer } from 'rxjs/Observer';
 
+
 @Injectable()
 export class MessagesService {
-	public constructor(private http:Http) { }
+	public constructor(private http:AuthHttp) { }
 	
 	// Retrieve all messages from the "const" channel from the Flask API
 	public getMessages() {
