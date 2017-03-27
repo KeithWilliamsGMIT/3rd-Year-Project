@@ -14,6 +14,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { AppComponent } from './app.component';
 import { AccountComponent } from './account/account.component';
 import { ContactsComponent } from './contacts/contacts.component';
+import { SearchComponent } from './search/search.component';
 import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
@@ -29,6 +30,7 @@ import { MessagesComponent } from './messages/messages.component';
 	declarations: [
 		AccountComponent,
 		ContactsComponent,
+		SearchComponent,
 		MessagesComponent,
 		AppComponent
 	],
