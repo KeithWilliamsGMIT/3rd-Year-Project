@@ -6,7 +6,7 @@ DESCRIPTION:	Provide a RESTful API for the application and serve the files
 """
 
 from flask import Flask, Response, request, make_response, render_template
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from flask_cors import CORS
 
 from databases import is_username_unique, create_user, get_user, event_stream, post_message, get_messages
@@ -98,9 +98,10 @@ def message(channel):
 	body = request.get_json()
 	message = body['message']
 	
-	# This is a temperary username until authentication is implemented
-	username = 'anonymous'
-	now = datetime.datetime.now().replace(microsecond=0).time()
+	# Access the identity of the current user
+	username = get_jwt_identity()
+	
+	now = datetime.datetime.now()
 	
 	# Create a JSON representation of the message
 	data = {"channel": channel, "sender": username, "message": message, "date": now.isoformat()}
@@ -116,7 +117,7 @@ def messages(channel):
 	return get_messages(channel)
 
 @app.route('/api/<channel>/stream')
-@jwt_required
+#@jwt_required
 def stream(channel):
 	return Response(event_stream(channel), mimetype="text/event-stream")
 

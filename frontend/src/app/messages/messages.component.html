@@ -1,9 +1,10 @@
 <h1>Messages</h1>
 
-<div class="message" *ngFor="let message of messages;">
-	<span class="sender">{{message.sender}}> </span>
-	<span>{{message.message}}</span>
-	<span class="date"> ({{message.date}})</span>
+<div class="card" *ngFor="let message of messages;">
+	<div class="card-block chat" [ngClass]="{self: message.sender == this.authenticationService.getUsername(), other: message.sender != this.authenticationService.getUsername()}">{{message.message}}</div>
+	
+	<!--<span class="sender">{{message.sender}}> </span>
+	<span class="date"> ({{message.date}})</span>-->
 </div>
 
 <form class="form-inline" (ngSubmit)="onSubmit()">

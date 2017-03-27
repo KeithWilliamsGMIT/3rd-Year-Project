@@ -3,9 +3,7 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { AuthenticationService } from './authentication.service';
 import { Http } from '@angular/http';
 
-let authenticationService = new AuthenticationService();
-
-function authenticationHttpServiceFactory(http: Http) {
+function authenticationHttpServiceFactory(http: Http, authenticationService: AuthenticationService) {
 	return new AuthHttp(new AuthConfig({
 		tokenName: 'access_token',
 		tokenGetter: (() => authenticationService.getToken()),
@@ -18,7 +16,7 @@ function authenticationHttpServiceFactory(http: Http) {
 		{
 			provide: AuthHttp,
 			useFactory: authenticationHttpServiceFactory,
-			deps: [Http]
+			deps: [Http, AuthenticationService]
 		}
 	]
 })

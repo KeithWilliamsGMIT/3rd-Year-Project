@@ -48,6 +48,11 @@ export class AuthenticationService {
 		return this.accessToken;
 	}
 	
+	// Return the username of the logged in user
+	public getUsername(): string {
+		return this.jwtHelper.decodeToken(this.accessToken).identity;
+	}
+	
 	// Get the remember value from localstorage and return it as a boolean
 	public getRememberMeValue(): boolean {
 		return !!localStorage.getItem(this.REMEMBER_TOKEN_NAME) && JSON.parse(localStorage.getItem(this.REMEMBER_TOKEN_NAME));

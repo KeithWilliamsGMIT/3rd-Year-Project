@@ -1,6 +1,17 @@
 @import "../../../public/css/vars.scss";
 
-div.sender {
-	background-color: $primary-colour;
-	font-weight: bold;
+div.card .chat {
+	margin: 2px 0px;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+div.card .self {
+	text-align: right;
+	background-color: $secondary-colour;
+}
+
+div.card .other {
+	text-align: left;
+	background-color: #fcfcfc;
 }

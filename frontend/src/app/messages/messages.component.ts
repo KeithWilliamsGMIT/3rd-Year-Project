@@ -1,5 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { AuthenticationService } from '../authentication/authentication.service';
 import { MessagesService } from './messages.service';
 import { Message } from './message';
 
@@ -17,7 +18,7 @@ export class MessagesComponent implements OnInit {
 	private observable: Observable<any>;
 	
 	// Adding private/public to a constructor argument gives it class level scope
-	public constructor(private messagesService:MessagesService, public message:Message) {
+	public constructor(private authenticationService:AuthenticationService, private messagesService:MessagesService, public message:Message) {
 		this.zone = new NgZone({enableLongStackTrace: false});
 	}
 	
