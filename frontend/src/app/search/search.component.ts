@@ -20,16 +20,19 @@ export class SearchComponent {
 	}
 	
 	// Called when the user clicks the search button
-	public onSubmit(): void {
+	public onSearchSubmit(): void {
 		// Only send request if the search box contains a value
 		if (this.query != null && this.query != "") {
 			this.searchService.getUsers(this.query).subscribe(response => {
-				this.zone.run(() => {
-					console.log(response);
-					this.users = JSON.parse(response.users);
-					console.log(this.users);
-				});
+				this.zone.run(() => this.users = JSON.parse(response.users));
 			});
 		}
+	}
+	
+	// Called when the user clicks the add contact button on one of the results
+	public onAddContactSubmit(username: string): void {
+		this.searchService.postContact(username).subscribe(response => {
+			console.log(response);
+		});
 	}
 }

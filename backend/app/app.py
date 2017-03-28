@@ -105,6 +105,12 @@ def search():
 	
 	return json.dumps({"status": "success", "query": search, "message": "The list of users were retrieved!", "users": users})
 	
+@app.route('/api/contacts/<username>', methods=['POST'])
+@jwt_required
+def contacts(username):
+	
+	return json.dumps({"status": "success", "message": "Added contact to your list!"})
+	
 @app.route('/api/<channel>/message', methods=['POST'])
 @jwt_required
 def message(channel):
