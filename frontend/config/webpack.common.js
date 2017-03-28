@@ -7,7 +7,8 @@ module.exports = {
 	entry: {
 		'polyfills': './src/polyfills.ts',
 		'vendor': './src/vendor.ts',
-		'app': './src/main.ts'
+		'app': './src/main.ts',
+		'fa': 'font-awesome-sass-loader!./config/font-awesome.config.js'
 	},
 
 	resolve: {
@@ -24,10 +25,10 @@ module.exports = {
 				test: /\.html$/,
 				loader: 'html-loader'
 			},
-			{
+			/*{
 				test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
 				loader: 'file-loader?name=assets/[name].[hash].[ext]'
-			},
+			},*/
 			{
 				test: /\.css$/,
 				exclude: helpers.root('src', 'app'),
@@ -42,11 +43,15 @@ module.exports = {
 				test: /\.scss$/,
 				loaders: ['raw-loader', 'sass-loader']
 			},
+			// Change url to url-loaded to fix
+			// throw new Error("Module '" + loader.path + "' is not a loader (must have normal or pitch function)");
 			{
-				test: /\.(woff2?|ttf|eot|svg)$/,
-				// Change url to url-loaded to fix
-				// throw new Error("Module '" + loader.path + "' is not a loader (must have normal or pitch function)");
-				loader: 'url-loader?limit=10000'
+				test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
+				loader: "url-loader?limit=10000&mimetype=application/font-woff"
+			},
+			{
+				test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+				loader: "file-loader"
 			},
 			// Bootstrap 4
 			{
