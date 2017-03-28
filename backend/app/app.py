@@ -90,6 +90,16 @@ def login():
 			# An identity can be any data that is json serializable
 			access_token = create_access_token(identity=username)
 			return json.dumps({"status": "success", "message": "You're now logged in!", "access_token": access_token})
+
+@app.route('/api/search', methods=['GET'])
+@jwt_required
+def search():
+	search = request.args.get('search')
+	
+	# Test user data. This will be a list of users, whose usernames match the query. They will be retrieved from the database.
+	users = json.dumps([{"username": "test1"}, {"username": "test2"}])
+	
+	return json.dumps({"status": "success", "query": search, "message": "The list of users were retrieved!", "users": users})
 	
 @app.route('/api/<channel>/message', methods=['POST'])
 @jwt_required
