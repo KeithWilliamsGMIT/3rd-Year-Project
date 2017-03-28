@@ -9,7 +9,7 @@ from flask import Flask, Response, request, make_response, render_template
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from flask_cors import CORS
 
-from databases import is_username_unique, create_user, get_user, event_stream, post_message, get_messages
+from databases import is_username_unique, create_user, get_user, search_users, event_stream, post_message, get_messages
 from models import User
 
 import datetime
@@ -94,10 +94,14 @@ def login():
 @app.route('/api/search', methods=['GET'])
 @jwt_required
 def search():
+	# Get the search query from the URL
 	search = request.args.get('search')
 	
-	# Test user data. This will be a list of users, whose usernames match the query. They will be retrieved from the database.
-	users = json.dumps([{"username": "test1"}, {"username": "test2"}])
+	# Get the current users username
+	current_user = get_jwt_identity()
+	
+	# Get the list of users, whose usernames match the query.
+	users = search_users(search, current_user)
 	
 	return json.dumps({"status": "success", "query": search, "message": "The list of users were retrieved!", "users": users})
 	
@@ -108,13 +112,13 @@ def message(channel):
 	body = request.get_json()
 	message = body['message']
 	
-	# Access the identity of the current user
-	username = get_jwt_identity()
+	# Get the current users username
+	current_user = get_jwt_identity()
 	
 	now = datetime.datetime.now()
 	
 	# Create a JSON representation of the message
-	data = {"channel": channel, "sender": username, "message": message, "date": now.isoformat()}
+	data = {"channel": channel, "sender": current_user, "message": message, "date": now.isoformat()}
 	
 	post_message(channel, data)
 	

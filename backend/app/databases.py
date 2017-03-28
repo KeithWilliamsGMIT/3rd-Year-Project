@@ -62,7 +62,23 @@ def get_user(username):
 	user = users_collection.find_one({'username': username})
 	
 	return user
+
+# Retrieve and return all user documents from MongoDB that match the search
+def search_users(search, current_user):
+	# This query will return all users that match the search except fot the
+	# the user that is currently logged in. This is a case insensitive search.
+	# Only return the username.
 	
+	# NOTE: A more efficient way to perform this search would be to store
+	# another property in every user document called lower_username which will
+	# be the lowercase value of the username and then match the lowercase search
+	# string against that rather than using a case insensitive search. This
+	# would be more efficent as it could use indexes.
+	users = users_collection.find({"$and": [ {'username': {'$regex': search, '$options': 'i'}}, {"username": { '$ne': current_user}} ]}, { 'username': 1, '_id': 0 })
+	
+	# The dumps() method is used to create a JSON representation of the data.
+	return dumps(users)
+
 def event_stream(channel):
 	pubsub = red.pubsub()
 	pubsub.subscribe(channel)

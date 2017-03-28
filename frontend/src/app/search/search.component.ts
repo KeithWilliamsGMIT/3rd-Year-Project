@@ -25,6 +25,7 @@ export class SearchComponent {
 		if (this.query != null && this.query != "") {
 			this.searchService.getUsers(this.query).subscribe(response => {
 				this.zone.run(() => {
+					console.log(response);
 					this.users = JSON.parse(response.users);
 					console.log(this.users);
 				});
