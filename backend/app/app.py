@@ -9,7 +9,7 @@ from flask import Flask, Response, request, make_response, render_template
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from flask_cors import CORS
 
-from databases import is_username_unique, create_user, get_user, search_users, event_stream, post_message, get_messages
+from databases import is_username_unique, create_user, get_user, search_users, has_contact, add_contact, event_stream, post_message, get_messages
 from models import User
 
 import datetime
@@ -108,8 +108,17 @@ def search():
 @app.route('/api/contacts/<username>', methods=['POST'])
 @jwt_required
 def contacts(username):
+	# Get the current users username
+	current_user = get_jwt_identity()
 	
-	return json.dumps({"status": "success", "message": "Added contact to your list!"})
+	# Check if contact already exists
+	if (has_contact(current_user, username)):
+		return json.dumps({"status": "error", "message": "This user is already one of your contacts!"})
+	else:
+		# Add contact
+		add_contact(current_user, username)
+		
+		return json.dumps({"status": "success", "message": "Added contact to your list!"})
 	
 @app.route('/api/<channel>/message', methods=['POST'])
 @jwt_required
@@ -129,7 +138,7 @@ def message(channel):
 	post_message(channel, data)
 	
 	# Must return something to avoid the "ValueError: View function did not return a response" error
-	return json.dumps({"status": "OK"})
+	return json.dumps({"status": "success"})
 
 @app.route('/api/<channel>/messages', methods=['GET'])
 @jwt_required

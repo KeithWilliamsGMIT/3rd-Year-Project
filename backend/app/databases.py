@@ -40,11 +40,14 @@ mongodb = mongo['test-database']
 # Get the collection of users
 users_collection = mongodb['users-collection']
 
+# Get the collection of contacts
+contacts_collection = mongodb['contacts-collection']
+
 # Get the collection of messages
 messages_collection = mongodb['messages-collection']
 
 def is_username_unique(username):
-	# Return the user document with the the given username if it exists
+	# Return the user document with the given username if it exists
 	# Otherwise return None
 	users_with_username = users_collection.find_one({'username': username})
 	
@@ -78,6 +81,23 @@ def search_users(search, current_user):
 	
 	# The dumps() method is used to create a JSON representation of the data.
 	return dumps(users)
+
+# Return true if the given users are not already contacts
+def has_contact(current_user, username):
+	# Return the contact document where the two users match the given usernames
+	# if it exists, otherwise return None
+	contacts = contacts_collection.find_one({"$and": [ {"$or": [ {'sender': current_user}, {'recipient': current_user} ]}, {"$or": [ {'sender': username}, {'recipient': username} ]}]})
+	
+	# If None was returned the users are not contacts and return false
+	return contacts != None
+
+# Add the two users to a new contact document with a unique channel identifier
+def add_contact(current_user, username):
+	# Create a new JSON object containing the contact data
+	contact = {"sender": current_user, "recipient": username}
+	
+	# Create a new document with the contact data in the contacts collection in MongoDB
+	contacts_collection.insert_one(contact)
 
 def event_stream(channel):
 	pubsub = red.pubsub()
