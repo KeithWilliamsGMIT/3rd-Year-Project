@@ -15,11 +15,15 @@ export class ContactsComponent implements OnInit {
 	public constructor(private contactsService:ContactsService) { }
 	
 	public ngOnInit(): void {
-		this.contactsService.getContacts().subscribe(contacts => {
+		this.contactsService.getContacts().subscribe(response => {
 			// Store the list of contacts in a variable
-			this.contacts = contacts;
-			
-			console.log(this.contacts);
+			this.contacts = JSON.parse(response.contacts);
 		});
+	}
+	
+	// Called whent he user clicks on a contact
+	public onClickContact(contact: Object): void {
+		// Navigate to the messages page
+		console.log(contact);
 	}
 }

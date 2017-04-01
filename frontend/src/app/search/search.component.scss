@@ -1,3 +1,5 @@
+@import "../../../public/css/lists.scss";
+
 /* Search box */
 #custom-search-input {
 	padding: 3px;
@@ -27,14 +29,4 @@
 	border: 0;
 	box-shadow: none;
 	border-left: solid 1px #cccccc;
-}
-
-/* List of results */
-.card {
-	margin-top: 5px;
-	
-	.list-group-item {
-		border-radius: 0px;
-		border-width: 1px 0 1px 0;
-	}
 }

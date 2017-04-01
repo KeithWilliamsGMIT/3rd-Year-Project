@@ -19,7 +19,7 @@
 </div>
 
 <!-- List of users who match the search query -->
-<div class="card">
+<div class="card list">
 	<ul class="list-group">
 		<li class="list-group-item" *ngFor="let user of users;">
 			<form (ngSubmit)="onAddContactSubmit(user.username)">

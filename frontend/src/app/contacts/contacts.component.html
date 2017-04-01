@@ -1,1 +1,12 @@
 <h1>Contacts</h1>
+
+<!-- List of users who match the search query -->
+<div class="card list">
+	<ul class="list-group">
+		<li class="list-group-item" *ngFor="let contact of contacts;" (click)="onClickContact(contact)">
+			<div class="input-group col-md-12">
+				<span class="pull-left">{{contact.contact}}</span>
+			</div>
+		</li>
+	</ul>
+</div>
