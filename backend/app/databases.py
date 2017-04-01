@@ -84,9 +84,9 @@ def search_users(search, current_user):
 
 # Return true if the given users are not already contacts
 def has_contact(current_user, username):
-	# Return the contact document where the two users match the given usernames
+	# Return the contact document where the two given usernames are in the list of usernames
 	# if it exists, otherwise return None
-	contacts = contacts_collection.find_one({"$and": [ {"$or": [ {'sender': current_user}, {'recipient': current_user} ]}, {"$or": [ {'sender': username}, {'recipient': username} ]}]})
+	contacts = contacts_collection.find_one({ "$and": [ { 'users': current_user }, { 'users': username } ] })
 	
 	# If None was returned the users are not contacts and return false
 	return contacts != None
@@ -94,10 +94,40 @@ def has_contact(current_user, username):
 # Add the two users to a new contact document with a unique channel identifier
 def add_contact(current_user, username):
 	# Create a new JSON object containing the contact data
-	contact = {"sender": current_user, "recipient": username}
+	contact = {"users": [current_user, username]}
 	
 	# Create a new document with the contact data in the contacts collection in MongoDB
 	contacts_collection.insert_one(contact)
+
+# Return all the users who are listed as the given users contact
+def get_contacts(username):
+	# Query MongoDB for a list of the current users contacts
+	# Return a list of objects containing the contacts usernames
+	contacts = contacts_collection.aggregate([
+			# Get documents where the current user is in the list of users
+			{ "$match": {
+					'users': username
+				}
+			},
+			
+			# Break array into seperate objects
+			{ "$unwind": "$users" },
+			
+			# Ignore the resulting objects that have the current users username
+			{ "$match": {
+					'users': {"$ne": username}
+				}
+			},
+			
+			{ "$project": {
+					'_id': 0,
+					'contact': "$users"
+				}
+			 }
+		])
+	
+	# Convert the cursor object to JSON format
+	return dumps(contacts)
 
 def event_stream(channel):
 	pubsub = red.pubsub()

@@ -9,7 +9,7 @@ from flask import Flask, Response, request, make_response, render_template
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from flask_cors import CORS
 
-from databases import is_username_unique, create_user, get_user, search_users, has_contact, add_contact, event_stream, post_message, get_messages
+from databases import is_username_unique, create_user, get_user, search_users, has_contact, add_contact, get_contacts, event_stream, post_message, get_messages
 from models import User
 
 import datetime
@@ -104,10 +104,18 @@ def search():
 	users = search_users(search, current_user)
 	
 	return json.dumps({"status": "success", "query": search, "message": "The list of users were retrieved!", "users": users})
+
+@app.route('/api/contacts', methods=['GET'])
+@jwt_required
+def contacts():
+	# Get the current users username
+	current_user = get_jwt_identity()
 	
+	return json.dumps({"status": "success", "message": "Retrieved the list of contcts!", "contacts": get_contacts(current_user)})
+
 @app.route('/api/contacts/<username>', methods=['POST'])
 @jwt_required
-def contacts(username):
+def contacts_username(username):
 	# Get the current users username
 	current_user = get_jwt_identity()
 	
@@ -117,9 +125,9 @@ def contacts(username):
 	else:
 		# Add contact
 		add_contact(current_user, username)
-		
+
 		return json.dumps({"status": "success", "message": "Added contact to your list!"})
-	
+
 @app.route('/api/<channel>/message', methods=['POST'])
 @jwt_required
 def message(channel):
