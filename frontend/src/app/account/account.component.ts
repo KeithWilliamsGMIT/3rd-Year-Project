@@ -43,7 +43,7 @@ export class AccountComponent implements OnInit {
 				if (response.status == "error") {
 					this.loginForm.errorMessage = response.message;
 				} else {
-					this.authenticate(response.access_token);
+					this.authenticate(response.access_token, this.loginForm.rememberMe);
 				}
 			});
 		});
@@ -53,18 +53,21 @@ export class AccountComponent implements OnInit {
 	public onSignup(): void {
 		this.accountService.postSignUp(JSON.stringify(this.signUpForm)).subscribe(response => {
 			this.zone.run(() => {
+				console.log(response);
+				
 				if (response.status == "error") {
 					this.signUpForm.errorMessage = response.message;
 				} else {
-					this.authenticate(response.access_token);
+					// Never remember the user when they register
+					this.authenticate(response.access_token, false);
 				}
 			});
 		});
 	}
 	
-	private authenticate(accessToken: string): void {
+private authenticate(accessToken: string, rememberMe: boolean): void {
 		// Store the authentication token
-		this.authenticationService.logIn(accessToken, this.loginForm.rememberMe);
+		this.authenticationService.logIn(accessToken, rememberMe);
 		
 		// Clear both forms
 		this.signUpForm.clear();

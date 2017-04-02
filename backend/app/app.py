@@ -64,7 +64,11 @@ def register():
 		
 		# Create and store the user in the database
 		create_user(user_data)
-		return json.dumps({"status": "success", "message": "Hooray! You're now signed up!" })
+		
+		# Generate an access token using an identity, in this case the username
+		access_token = create_access_token(identity=username)
+		
+		return json.dumps({"status": "success", "message": "Hooray! You're now signed up!", "access_token": access_token })
 
 @app.route('/api/login', methods=['POST'])
 def login():
