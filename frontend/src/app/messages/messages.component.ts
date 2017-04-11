@@ -1,4 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
 import { AuthenticationService } from '../authentication/authentication.service';
 import { MessagesService } from './messages.service';
@@ -17,19 +18,27 @@ export class MessagesComponent implements OnInit {
 	private zone: NgZone;
 	private observable: Observable<any>;
 	
+	private channel: string;
+	private sub: any;
+	
 	// Adding private/public to a constructor argument gives it class level scope
-	public constructor(private authenticationService:AuthenticationService, private messagesService:MessagesService, public message:Message) {
+	public constructor(private authenticationService:AuthenticationService, private messagesService:MessagesService, public message:Message, private route:ActivatedRoute) {
 		this.zone = new NgZone({enableLongStackTrace: false});
 	}
 	
 	// Called after the constructor
 	public ngOnInit(): void {
-		this.messagesService.getMessages().subscribe(messages => {
+		// Get parameters adapted from https://angular-2-training-book.rangle.io/handout/routing/routeparams.html
+		this.sub = this.route.params.subscribe(params => {
+			this.channel = params['channel'];
+		});
+		
+		this.messagesService.getMessages(this.channel).subscribe(messages => {
 			// Store the list of messages in a variable
 			this.messages = messages;
 		});
 		
-		this.observable = this.messagesService.subscribeToChannel();
+		this.observable = this.messagesService.subscribeToChannel(this.channel);
 		
 		this.observable.subscribe({
 			next: message => {
@@ -46,10 +55,10 @@ export class MessagesComponent implements OnInit {
 	public onSubmit(): void {
 		// Only send message if it is not blank
 		if (!this.message.isEmpty()) {
-			this.messagesService.postMessage(JSON.stringify(this.message)).subscribe(response => {
+			this.messagesService.postMessage(JSON.stringify(this.message), this.channel).subscribe(response => {
 				
 			});
-
+			
 			this.message.clear();
 		}
 	}

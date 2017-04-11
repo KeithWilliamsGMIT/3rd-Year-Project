@@ -53,8 +53,6 @@ export class AccountComponent implements OnInit {
 	public onSignup(): void {
 		this.accountService.postSignUp(JSON.stringify(this.signUpForm)).subscribe(response => {
 			this.zone.run(() => {
-				console.log(response);
-				
 				if (response.status == "error") {
 					this.signUpForm.errorMessage = response.message;
 				} else {
@@ -65,7 +63,7 @@ export class AccountComponent implements OnInit {
 		});
 	}
 	
-private authenticate(accessToken: string, rememberMe: boolean): void {
+	private authenticate(accessToken: string, rememberMe: boolean): void {
 		// Store the authentication token
 		this.authenticationService.logIn(accessToken, rememberMe);
 		

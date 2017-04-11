@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router} from '@angular/router';
 import { ContactsService } from './contacts.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class ContactsComponent implements OnInit {
 	// Contacts to display to the user
 	public contacts: Object[];
 	
-	public constructor(private contactsService:ContactsService) { }
+	public constructor(private contactsService:ContactsService, private router:Router) { }
 	
 	public ngOnInit(): void {
 		this.contactsService.getContacts().subscribe(response => {
@@ -22,8 +23,8 @@ export class ContactsComponent implements OnInit {
 	}
 	
 	// Called whent he user clicks on a contact
-	public onClickContact(contact: Object): void {
+	public onClickContact(channel: string): void {
 		// Navigate to the messages page
-		console.log(contact);
+		this.router.navigate(['messages', channel]);
 	}
 }

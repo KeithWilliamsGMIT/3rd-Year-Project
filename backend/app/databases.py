@@ -92,9 +92,11 @@ def has_contact(current_user, username):
 	return contacts != None
 
 # Add the two users to a new contact document with a unique channel identifier
-def add_contact(current_user, username):
+def add_contact(current_user, username, timestamp, channel):
+	# Generate a unique ID
+	
 	# Create a new JSON object containing the contact data
-	contact = {"users": [current_user, username]}
+	contact = {"users": [current_user, username], "created": timestamp, "channel": channel}
 	
 	# Create a new document with the contact data in the contacts collection in MongoDB
 	contacts_collection.insert_one(contact)
@@ -106,7 +108,7 @@ def get_contacts(username):
 	contacts = contacts_collection.aggregate([
 			# Get documents where the current user is in the list of users
 			{ "$match": {
-					'users': username
+					'users': username,
 				}
 			},
 			
@@ -121,7 +123,8 @@ def get_contacts(username):
 			
 			{ "$project": {
 					'_id': 0,
-					'contact': "$users"
+					'contact': "$users",
+					'channel': "$channel"
 				}
 			 }
 		])

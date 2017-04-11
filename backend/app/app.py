@@ -13,6 +13,7 @@ from databases import is_username_unique, create_user, get_user, search_users, h
 from models import User
 
 import datetime
+import uuid
 import json
 import os
 
@@ -127,8 +128,11 @@ def contacts_username(username):
 	if (has_contact(current_user, username)):
 		return json.dumps({"status": "error", "message": "This user is already one of your contacts!"})
 	else:
+		# Get a timestamp
+		timestamp = datetime.datetime.now();
+		
 		# Add contact
-		add_contact(current_user, username)
+		add_contact(current_user, username, timestamp, str(uuid.uuid1()))
 
 		return json.dumps({"status": "success", "message": "Added contact to your list!"})
 
