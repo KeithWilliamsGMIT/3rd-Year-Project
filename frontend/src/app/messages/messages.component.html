@@ -1,13 +1,33 @@
-<h1>Messages</h1>
-
-<div class="card" *ngFor="let message of messages;">
-	<div class="card-block chat" [ngClass]="{self: message.sender == this.authenticationService.getUsername(), other: message.sender != this.authenticationService.getUsername()}">{{message.message}}</div>
+<div class="wrapper">
+	<div class="table-row">
+		<div class="messages table-cell">
+			<div class="messages-inner">
+				<!-- Display each message in a chat box -->
+				<div class="card" *ngFor="let message of messages;">
+					<div class="card-block chat" [ngClass]="{self: message.sender == this.authenticationService.getUsername(), other: message.sender != this.authenticationService.getUsername()}">
+						{{message.message}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	
-	<!--<span class="sender">{{message.sender}}> </span>
-	<span class="date"> ({{message.date}})</span>-->
-</div>
+	<!-- Message form -->
+	<div class="table-row">
+		<div class="table-cell">
+			<!-- Set autocomplete to off so values aren't cached -->
+			<form id="custom-send-input" (ngSubmit)="onSubmit()" autocomplete="off">
+				<div class="input-group col-md-12">
+					<input type="text" class="form-control input-lg"  name="message" [(ngModel)]="message.message" placeholder="Write your message" required/>
 
-<form class="form-inline" (ngSubmit)="onSubmit()">
-	<input class="form-control" type="text" name="message" [(ngModel)]="message.message" required/>
-	<input class="btn btn-info" type="submit" value="Send"/>
-</form>
+					<!-- Send button -->
+					<span class="input-group-btn">
+						<button class="btn btn-info btn-lg" type="submit" name="sendSubmit">
+							<i class="fa fa-fw fa-send"></i>
+						</button>
+					</span>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

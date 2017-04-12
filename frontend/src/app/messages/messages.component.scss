@@ -1,9 +1,39 @@
 @import "../../../public/css/vars.scss";
 
+div.wrapper {
+	table-layout: fixed;
+	display: table;
+	width: 100%;
+	height: 100%;
+}
+
+div.table-row {
+	display: table-row;
+	height: 100%;
+}
+
+div.table-cell {
+	display: table-cell;
+	height: 100%;
+}
+
+div.messages {
+	width: 100%;
+	height: 100%;
+}
+
+div.messages-inner {
+	height: 100%;
+	position: relative;
+	overflow-x: hidden;
+}
+
+/* Chat boxes */
 div.card .chat {
-	margin: 2px 0px;
-	padding: 5px;
+	margin: 5px 10px;
+	padding: 10px;
 	border-radius: 5px;
+	word-wrap: break-word;
 }
 
 div.card .self {
@@ -14,4 +44,32 @@ div.card .self {
 div.card .other {
 	text-align: left;
 	background-color: #fcfcfc;
+}
+
+/* Send box */
+#custom-send-input {
+	padding: 3px;
+	border: solid 1px #e4e4e4;
+	background-color: #ffffff;
+}
+
+#custom-send-input input {
+	border: 0;
+	box-shadow: none;
+}
+
+#custom-send-input button {
+	margin: 2px 0 0 0;
+	background: none;
+	box-shadow: none;
+	border: 0;
+	color: #666666;
+	padding: 0 8px 0 10px;
+	border-left: solid 1px #cccccc;
+}
+
+#custom-send-input button:hover {
+	border: 0;
+	box-shadow: none;
+	border-left: solid 1px #cccccc;
 }

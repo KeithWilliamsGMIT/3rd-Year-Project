@@ -1,17 +1,23 @@
 @import "../../public/css/vars.scss";
 
-html, body {
-	min-height: 100%;
-	height: 100%;
-	background: $secondary-colour;
-}
-
 main {
+	height: 100%;
+	min-height: 100%;
+	overflow-x: hidden;
 	text-align: center;
+	display: flex;
+	flex-direction: column;
 }
 
 nav.navbar-custom {
 	background-color: $primary-colour;
 	color: #ffffff;
 	border-radius: 0px;
+	margin: 0px;
+}
+
+div.fill {
+	margin: 0px;
+	padding: 0px;
+	flex: 1;
 }

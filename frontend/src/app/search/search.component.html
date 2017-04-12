@@ -1,39 +1,39 @@
-<h1>Search</h1>
-
-<!-- Search box to enter username -->
-<div class="row">
-	<div class="col-md-12">
-		<form id="custom-search-input" (ngSubmit)="onSearchSubmit()">
-			<div class="input-group col-md-12">
-				<input type="text" class="form-control input-lg" name="searchInput" [(ngModel)]="query" placeholder="Search by username"/>
-				
-				<!-- Search button -->
-				<span class="input-group-btn">
-					<button class="btn btn-info btn-lg" type="submit" name="searchSubmit">
-						<i class="fa fa-fw fa-search"></i>
-					</button>
-				</span>
-			</div>
-		</form>
-	</div>
-</div>
-
-<!-- List of users who match the search query -->
-<div class="card list">
-	<ul class="list-group">
-		<li class="list-group-item" *ngFor="let user of users;">
-			<form (ngSubmit)="onAddContactSubmit(user.username)">
+<div class="container">
+	<!-- Search box to enter username -->
+	<div class="row">
+		<div class="col-md-12">
+			<form id="custom-search-input" (ngSubmit)="onSearchSubmit()">
 				<div class="input-group col-md-12">
-					<span class="pull-left">{{user.username}}</span>
+					<input type="text" class="form-control input-lg" name="searchInput" [(ngModel)]="query" placeholder="Search by username"/>
 
-					<!-- Add as contact button -->
+					<!-- Search button -->
 					<span class="input-group-btn">
-						<button class="btn btn-info btn-lg" type="submit" name="contactSubmit">
-							<i class="fa fa-fw fa-plus"></i>
+						<button class="btn btn-info btn-lg" type="submit" name="searchSubmit">
+							<i class="fa fa-fw fa-search"></i>
 						</button>
 					</span>
 				</div>
 			</form>
-		</li>
-	</ul>
+		</div>
+	</div>
+
+	<!-- List of users who match the search query -->
+	<div class="card list">
+		<ul class="list-group">
+			<li class="list-group-item" *ngFor="let user of users;">
+				<form (ngSubmit)="onAddContactSubmit(user.username)">
+					<div class="input-group col-md-12">
+						<span class="pull-left">{{user.username}}</span>
+
+						<!-- Add as contact button -->
+						<span class="input-group-btn">
+							<button class="btn btn-info btn-lg" type="submit" name="contactSubmit">
+								<i class="fa fa-fw fa-plus"></i>
+							</button>
+						</span>
+					</div>
+				</form>
+			</li>
+		</ul>
+	</div>
 </div>
