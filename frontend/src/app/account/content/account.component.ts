@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router} from '@angular/router';
-import { AuthenticationService } from '../authentication/authentication.service'
+import { AuthenticationService } from '../../authentication/authentication.service'
 import { AccountService } from './account.service';
 import { LoginForm } from './login';
 import { SignUpForm } from './signup';

@@ -12,10 +12,15 @@ import { AuthenticationGuard } from './authentication/authentication-guard';
 import { AuthenticationModule } from './authentication/authentication.module';
 
 import { AppComponent } from './app.component';
-import { AccountComponent } from './account/account.component';
-import { ContactsComponent } from './contacts/contacts.component';
-import { SearchComponent } from './search/search.component';
-import { MessagesComponent } from './messages/messages.component';
+import { AccountComponent } from './account/content/account.component';
+import { ContactsComponent } from './contacts/content/contacts.component';
+import { SearchComponent } from './search/content/search.component';
+import { MessagesComponent } from './messages/content/messages.component';
+
+import { AccountMenuComponent } from './account/menu/account-menu.component';
+import { ContactsMenuComponent } from './contacts/menu/contacts-menu.component';
+import { SearchMenuComponent } from './search/menu/search-menu.component';
+import { MessagesMenuComponent } from './messages/menu/messages-menu.component';
 
 @NgModule({
 	imports: [
@@ -29,8 +34,12 @@ import { MessagesComponent } from './messages/messages.component';
 	],
 	declarations: [
 		AccountComponent,
+		AccountMenuComponent,
+		ContactsMenuComponent,
 		ContactsComponent,
+		SearchMenuComponent,
 		SearchComponent,
+		MessagesMenuComponent,
 		MessagesComponent,
 		AppComponent
 	],

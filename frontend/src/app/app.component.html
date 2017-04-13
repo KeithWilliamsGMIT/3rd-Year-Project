@@ -1,12 +1,6 @@
 <main>
 	<nav class="navbar fixed-top navbar-custom">
-		<span class="navbar-brand">Messaging App</span>
-		
-		<!-- This navigation bar is only temporary and will not be used for navigation in the final release -->
-		<ul class="nav navbar-nav">
-			<li class="nav-item"><a class="nav-link" [routerLink]="['/contacts']">Contacts</a></li>
-			<li class="nav-item"><a class="nav-link" [routerLink]="['/search']">Search</a></li>
-		</ul>
+		<router-outlet name="menu"></router-outlet>
 	</nav>
 	
 	<div class="container-fluid fill outer-outlet">

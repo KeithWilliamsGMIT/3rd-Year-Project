@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Rx';
-import { AuthenticationService } from '../authentication/authentication.service';
+import { AuthenticationService } from '../../authentication/authentication.service';
 import { MessagesService } from './messages.service';
 import { Message } from './message';
 
