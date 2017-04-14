@@ -1,0 +1,27 @@
+.row {
+	margin: 6px 0px;
+	display: flex;
+	flex-direction: row;
+}
+
+.menu-item {
+	padding: 2px;
+	font-size: 24px;
+}
+
+.left {
+	text-align: left;
+}
+
+.centre {
+	text-align: center;
+	flex: 1;
+}
+
+.right {
+	text-align: right;
+}
+
+.icon {
+	cursor: pointer;
+}
