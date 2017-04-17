@@ -2,7 +2,7 @@
 	<!-- Search box to enter username -->
 	<div class="row">
 		<div class="col-md-12">
-			<form id="custom-search-input" (ngSubmit)="onSearchSubmit()">
+			<form id="custom-search-input" class="inline-form" (ngSubmit)="onSearchSubmit()">
 				<div class="input-group col-md-12">
 					<input type="text" class="form-control input-lg" name="searchInput" [(ngModel)]="query" placeholder="Search by username"/>
 
@@ -22,7 +22,7 @@
 	<!-- List of users who match the search query -->
 	<div class="card list">
 		<ul class="list-group">
-			<li class="list-group-item" *ngFor="let user of users;">
+			<li class="list-group-item inline-form" *ngFor="let user of users;">
 				<form (ngSubmit)="onAddContactSubmit(user.username)">
 					<div class="input-group col-md-12">
 						<span class="pull-left">{{user.username}}</span>

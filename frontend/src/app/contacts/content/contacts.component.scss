@@ -1,7 +1,10 @@
 @import "../../../../public/css/lists.scss";
 @import "../../../../public/css/messages.scss";
+@import "../../../../public/css/inline.scss";
 
-div.input-group {
-	padding: 5px 0px;
+span.contact-name {
+	font-size: 20px;
+	width: 100%;
+	text-align: left;
 	cursor: pointer;
 }

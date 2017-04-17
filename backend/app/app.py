@@ -9,7 +9,7 @@ from flask import Flask, Response, request, make_response, render_template
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 from flask_cors import CORS
 
-from databases import is_username_unique, create_user, get_user, search_users, has_contact, add_contact, get_contacts, event_stream, post_message, get_messages
+from databases import is_username_unique, create_user, get_user, search_users, has_contact, add_contact, delete_contact, get_contacts, event_stream, post_message, get_messages
 from models import User
 
 import datetime
@@ -118,23 +118,30 @@ def contacts():
 	
 	return json.dumps({"status": "success", "message": "Retrieved the list of contcts!", "contacts": get_contacts(current_user)})
 
-@app.route('/api/contacts/<username>', methods=['POST'])
+@app.route('/api/contacts/<username>', methods=['POST', 'DELETE'])
 @jwt_required
 def contacts_username(username):
 	# Get the current users username
 	current_user = get_jwt_identity()
 	
-	# Check if contact already exists
-	if (has_contact(current_user, username)):
-		return json.dumps({"status": "error", "message": "This user is already one of your contacts!"})
-	else:
-		# Get a timestamp
-		timestamp = datetime.datetime.now();
-		
-		# Add contact
-		add_contact(current_user, username, timestamp, str(uuid.uuid1()))
+	if request.method == 'POST':
+		# Check if contact already exists
+		if (has_contact(current_user, username)):
+			return json.dumps({"status": "error", "message": "This user is already one of your contacts!"})
+		else:
+			# Get a timestamp
+			timestamp = datetime.datetime.now();
 
-		return json.dumps({"status": "success", "message": "Added contact to your list!"})
+			# Add contact
+			add_contact(current_user, username, timestamp, str(uuid.uuid1()))
+
+			return json.dumps({"status": "success", "message": "Added contact to your list!"})
+	elif request.method == 'DELETE':
+		# Delete the contact
+		delete_contact(current_user, username)
+
+		return json.dumps({"status": "success", "message": "Removed contact from your list!"})
+		
 
 @app.route('/api/<channel>/message', methods=['POST'])
 @jwt_required

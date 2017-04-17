@@ -77,7 +77,7 @@ def search_users(search, current_user):
 	# be the lowercase value of the username and then match the lowercase search
 	# string against that rather than using a case insensitive search. This
 	# would be more efficent as it could use indexes.
-	users = users_collection.find({"$and": [ {'username': {'$regex': search, '$options': 'i'}}, {"username": { '$ne': current_user}} ]}, { 'username': 1, '_id': 0 })
+	users = users_collection.find({"$and": [ {'username': {'$regex': search, '$options': 'i'}}, {'username': { '$ne': current_user}} ]}, { 'username': 1, '_id': 0 })
 	
 	# The dumps() method is used to create a JSON representation of the data.
 	return dumps(users)
@@ -93,13 +93,16 @@ def has_contact(current_user, username):
 
 # Add the two users to a new contact document with a unique channel identifier
 def add_contact(current_user, username, timestamp, channel):
-	# Generate a unique ID
-	
 	# Create a new JSON object containing the contact data
 	contact = {"users": [current_user, username], "created": timestamp, "channel": channel}
 	
 	# Create a new document with the contact data in the contacts collection in MongoDB
 	contacts_collection.insert_one(contact)
+
+# Delete the contact document that has the two given users in the users list
+def delete_contact(current_user, username):
+	# Delete the document
+	contacts_collection.delete_one({'users': { "$all" : [current_user, username] }})
 
 # Return all the users who are listed as the given users contact
 def get_contacts(username):

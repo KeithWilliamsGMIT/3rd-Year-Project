@@ -11,4 +11,11 @@ export class ContactsService {
 			.get('http://localhost:5000/api/contacts')
 			.map(response => response.json());
 	}
+	
+	// Delete the contact with the given username
+	public deleteContact(username: string) {
+		return this.http
+			.delete('http://localhost:5000/api/contacts/' + username)
+			.map(response => response.json());
+	}
 }

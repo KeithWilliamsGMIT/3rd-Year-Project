@@ -34,4 +34,16 @@ export class ContactsComponent implements OnInit {
 		// Navigate to the messages page
 		this.router.navigate(['messages', channel]);
 	}
+	
+	// Called when the user clicks the removed contact button
+	public onClickRemoveContact(contact: any): void {
+		this.contactsService.deleteContact(contact.contact).subscribe(response => {
+			// Remove the contact from the array of contacts
+			let index = this.contacts.indexOf(contact, 0);
+			
+			if (index > -1) {
+				this.contacts.splice(index, 1);
+			}
+		});
+	}
 }
