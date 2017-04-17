@@ -14,21 +14,21 @@ export class MessagesService {
 	// Retrieve all messages from the "const" channel from the Flask API
 	public getMessages(channel: string) {
 		return this.http
-			.get('http://0.0.0.0:5000/api/' + channel + '/messages')
+			.get('http://localhost:5000/api/' + channel + '/messages')
 			.map(response => response.json());
 	}
 	
 	// Send a message to the Flask API
 	public postMessage(body: string, channel: string) {
 		return this.http
-			.post('http://0.0.0.0:5000/api/' + channel + '/message', body)
+			.post('http://localhost:5000/api/' + channel + '/message', body)
 			.map(response => response.json());
 	}
 	
 	// Subscribe to Redis channel
 	public subscribeToChannel(channel: string): Observable<any> {
 		return Observable.create((observer: Observer<any>) => {
-			const eventSource = new EventSource('http://0.0.0.0:5000/api/' + channel + '/stream');
+			const eventSource = new EventSource('http://localhost:5000/api/' + channel + '/stream');
 			eventSource.onmessage = x => observer.next(x.data);
 			eventSource.onerror = x => observer.error(x);
 

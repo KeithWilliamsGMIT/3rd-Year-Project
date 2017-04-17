@@ -15,7 +15,7 @@ import { SearchMenuComponent } from './search/menu/search-menu.component';
 import { MessagesMenuComponent } from './messages/menu/messages-menu.component';
 
 export const routes: Routes = [
-	// Default to the the account root
+	// Make the account page the root
 	{ path: '', redirectTo: '/account', pathMatch: 'full' },
 	
 	// Accout route
@@ -29,7 +29,7 @@ export const routes: Routes = [
                 outlet: 'menu',
                 component: AccountMenuComponent
             }
-        ]},
+        ] },
 	
 	// Contacts route
 	{ path: 'contacts', children: [

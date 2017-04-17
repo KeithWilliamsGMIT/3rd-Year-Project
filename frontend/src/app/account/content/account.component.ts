@@ -38,6 +38,8 @@ export class AccountComponent implements OnInit {
 	
 	// Called when the user chooses to login to an account
 	public onLogin(): void {
+		this.loginForm.errorMessage = "";
+		
 		this.accountService.postLogin(JSON.stringify(this.loginForm)).subscribe(response => {
 			this.zone.run(() => {
 				if (response.status == "error") {
@@ -51,6 +53,8 @@ export class AccountComponent implements OnInit {
 	
 	// Called when the user chooses to register an account
 	public onSignup(): void {
+		this.signUpForm.errorMessage = "";
+		
 		this.accountService.postSignUp(JSON.stringify(this.signUpForm)).subscribe(response => {
 			this.zone.run(() => {
 				if (response.status == "error") {

@@ -16,14 +16,14 @@ export class SearchService {
 		params.set('search', query)
 		
 		return this.http
-			.get('http://0.0.0.0:5000/api/search', { search: params })
+			.get('http://localhost:5000/api/search', { search: params })
 			.map(response => response.json());
 	}
 	
 	// Add the user with the given username as a contact
 	public postContact(username: string) {
 		return this.http
-			.post('http://0.0.0.0:5000/api/contacts/' + username, '')
+			.post('http://localhost:5000/api/contacts/' + username, '')
 			.map(response => response.json());
 	}
 }

@@ -8,7 +8,7 @@ export class ContactsService {
 	// Retrieve all the users contacts
 	public getContacts() {
 		return this.http
-			.get('http://0.0.0.0:5000/api/contacts')
+			.get('http://localhost:5000/api/contacts')
 			.map(response => response.json());
 	}
 }

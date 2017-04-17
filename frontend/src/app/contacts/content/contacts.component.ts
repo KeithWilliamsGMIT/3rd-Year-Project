@@ -12,13 +12,20 @@ import { ContactsService } from './contacts.service';
 export class ContactsComponent implements OnInit {
 	// Contacts to display to the user
 	public contacts: Object[];
+	public isMessageHidden: boolean = true;
 	
 	public constructor(private contactsService:ContactsService, private router:Router) { }
 	
 	public ngOnInit(): void {
+		this.isMessageHidden = true;
+		
 		this.contactsService.getContacts().subscribe(response => {
 			// Store the list of contacts in a variable
 			this.contacts = JSON.parse(response.contacts);
+			
+			if (this.contacts.length == 0) {
+				this.isMessageHidden = false;
+			}
 		});
 	}
 	

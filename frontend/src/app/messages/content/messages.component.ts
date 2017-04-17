@@ -33,6 +33,7 @@ export class MessagesComponent implements OnInit {
 			this.channel = params['channel'];
 		});
 		
+		// Retrieve a list of messages
 		this.messagesService.getMessages(this.channel).subscribe(messages => {
 			// Store the list of messages in a variable
 			this.messages = messages;
@@ -52,6 +53,7 @@ export class MessagesComponent implements OnInit {
 		});
 	}
 	
+	// Called when the send button is clicked
 	public onSubmit(): void {
 		// Only send message if it is not blank
 		if (!this.message.isEmpty()) {
@@ -61,5 +63,16 @@ export class MessagesComponent implements OnInit {
 			
 			this.message.clear();
 		}
+	}
+	
+	public isMessageHidden(): boolean {
+		let isHidden = true
+		
+		// Wait for response
+		if (this.messages != null) {
+			isHidden = this.messages.length != 0;
+		}
+		
+		return isHidden;
 	}
 }

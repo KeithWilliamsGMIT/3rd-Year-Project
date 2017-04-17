@@ -8,7 +8,7 @@ These goals influenced the technologies used. For example, in order to make it c
 
 Building a feature rich application was not one of the initial goals.
 
-This project is hosted on Amazon Web Services (AWS). The project is live at [http://35.163.94.108:5000/](http://35.163.94.108:5000/).
+This project is hosted on Amazon Web Services (AWS). The project is live at [http://35.163.94.108/](http://35.163.94.108/).
 
 For more information you can see the [Wiki](https://github.com/KeithWilliamsGMIT/3rd-Year-Project/wiki) for this project.
 
@@ -60,7 +60,7 @@ cd app
 python3 app.py
 ```
 
-The application should now be available at [http://0.0.0.0:5000](http://0.0.0.0:5000).
+The API should now be available at [http://0.0.0.0:5000](http://0.0.0.0:5000).
 
 ##### Setting uo the front end
 Navigate to the frontend directory.

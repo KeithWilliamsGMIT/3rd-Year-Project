@@ -3,6 +3,7 @@
 	<head>
 		<base href="/">
 		<title>Messaging app</title>
+		<link rel="icon" type="image/png" href="../public/images/32.png"/>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
@@ -10,10 +11,21 @@
 			html, body, my-app {
 				height: 100%;
 				min-height: 100%;
+				background-color: #ec2652;
+			}
+			
+			.splash-image {
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				margin-top: -128px;
+				margin-left: -128px;
 			}
 		</style>
 	</head>
 	<body>
-		<my-app>Loading...</my-app>
+		<my-app>
+			<img class="splash-image" src="../public/images/256.png"/>
+		</my-app>
 	</body>
 </html>
