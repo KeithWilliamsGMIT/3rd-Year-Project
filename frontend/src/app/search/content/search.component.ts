@@ -37,9 +37,17 @@ export class SearchComponent {
 	}
 	
 	// Called when the user clicks the add contact button on one of the results
-	public onAddContactSubmit(username: string): void {
-		this.searchService.postContact(username).subscribe(response => {
-			console.log(response);
+	public onAddContactSubmit(user: any): void {
+		this.searchService.postContact(user.username).subscribe(response => {
+			// Remove the user from the array of users
+			let index = this.users.indexOf(user, 0);
+			
+			if (index > -1) {
+				this.users.splice(index, 1);
+			}
+			
+			// Show message if all contacts were added
+			this.isMessageHidden = this.users.length != 0;
 		});
 	}
 }

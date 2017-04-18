@@ -23,7 +23,7 @@
 	<div class="card list">
 		<ul class="list-group">
 			<li class="list-group-item inline-form" *ngFor="let user of users;">
-				<form (ngSubmit)="onAddContactSubmit(user.username)">
+				<form (ngSubmit)="onAddContactSubmit(user)">
 					<div class="input-group col-md-12">
 						<span class="pull-left">{{user.username}}</span>
 

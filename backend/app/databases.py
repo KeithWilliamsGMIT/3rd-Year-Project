@@ -68,16 +68,49 @@ def get_user(username):
 
 # Retrieve and return all user documents from MongoDB that match the search
 def search_users(search, current_user):
-	# This query will return all users that match the search except fot the
-	# the user that is currently logged in. This is a case insensitive search.
-	# Only return the username.
+	# Get a list of the current users contacts
+	contacts = contacts_collection.aggregate([
+			# Get contact documents where the current user is in the list of users.
+			# Only return the username, ignore all other properties.
+			{ "$match": {
+					'users': current_user,
+				}
+			},
+			
+			# Break array into seperate objects
+			{ "$unwind": "$users" },
+			
+			# Ignore the resulting objects that have the current users username
+			{ "$match": {
+					'users': {"$ne": current_user}
+				}
+			},
+			
+			{ "$project": {
+					'_id': 0,
+					'username': "$users",
+				}
+			 }
+		])
+	
+	# Define an empty list called usernames
+	usernames = []
+	
+	# Loop through the contact documents returned from mongoDB and
+	# append each username to the usernames list
+	for doc in contacts:
+		usernames.append(doc['username'])
+	
+	# This query will return all users that match the search except for the
+	# user that is currently logged in and their contacts. This is a case
+	# insensitive search. Only return the usernames.
 	
 	# NOTE: A more efficient way to perform this search would be to store
 	# another property in every user document called lower_username which will
 	# be the lowercase value of the username and then match the lowercase search
 	# string against that rather than using a case insensitive search. This
 	# would be more efficent as it could use indexes.
-	users = users_collection.find({"$and": [ {'username': {'$regex': search, '$options': 'i'}}, {'username': { '$ne': current_user}} ]}, { 'username': 1, '_id': 0 })
+	users = users_collection.find({"$and": [ {'username': {'$regex': search, '$options': 'i'}}, {'username': { '$ne': current_user}}, {'username': {'$nin': usernames}} ]}, { 'username': 1, '_id': 0 })
 	
 	# The dumps() method is used to create a JSON representation of the data.
 	return dumps(users)

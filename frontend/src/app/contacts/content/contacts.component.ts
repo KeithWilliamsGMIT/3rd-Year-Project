@@ -44,6 +44,9 @@ export class ContactsComponent implements OnInit {
 			if (index > -1) {
 				this.contacts.splice(index, 1);
 			}
+			
+			// Show message if all contacts were removed
+			this.isMessageHidden = this.contacts.length != 0;
 		});
 	}
 }
