@@ -166,7 +166,18 @@ def message(channel):
 @app.route('/api/<channel>/messages', methods=['GET'])
 @jwt_required
 def messages(channel):
-	return get_messages(channel)
+	try:
+		# Get the last id from the URL
+		last_id = request.args.get('id')
+
+		# Get the step size from the URL
+		step = request.args.get('step')
+		
+		messages = get_messages(channel, last_id, int(step))
+		
+		return json.dumps({"status": "success", "messages": messages})
+	except ValueError:
+		return json.dumps({"status": "error", "message": "Hey, step needs to be a number"})
 
 @app.route('/api/<channel>/stream')
 #@jwt_required

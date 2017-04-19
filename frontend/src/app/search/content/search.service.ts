@@ -13,7 +13,7 @@ export class SearchService {
 	public getUsers(query: string) {
 		// How to add URL parameters - http://stackoverflow.com/questions/34475523/how-to-pass-url-arguments-query-string-to-a-http-request-on-angular-2
 		let params = new URLSearchParams();
-		params.set('search', query)
+		params.set('search', query);
 		
 		return this.http
 			.get('http://localhost:5000/api/search', { search: params })

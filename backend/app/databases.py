@@ -10,7 +10,7 @@ import pymongo
 import redis
 
 # http://api.mongodb.com/python/current/api/bson/json_util.html
-from bson.json_util import dumps
+from bson.json_util import dumps, ObjectId
 import json
 
 # Redis information
@@ -141,6 +141,7 @@ def delete_contact(current_user, username):
 def get_contacts(username):
 	# Query MongoDB for a list of the current users contacts
 	# Return a list of objects containing the contacts usernames
+	# Sort the list alphabetically by username
 	contacts = contacts_collection.aggregate([
 			# Get documents where the current user is in the list of users
 			{ "$match": {
@@ -157,12 +158,19 @@ def get_contacts(username):
 				}
 			},
 			
+			# Only return username and channel
 			{ "$project": {
 					'_id': 0,
 					'contact': "$users",
 					'channel': "$channel"
 				}
-			 }
+			 },
+			
+			# Sort by username in ascending value
+			{ "$sort" : {
+					'contact': 1
+				}
+			}
 		])
 	
 	# Convert the cursor object to JSON format
@@ -194,12 +202,17 @@ def post_message(channel, data):
 	messages_collection.insert_one(data)
 
 # Get all the previous messages from the given channel
-def get_messages(channel):
-	# Get each document in the messages-collection where the channel
-	# value in the document is the same as the channel the that is
-	# given in the URL.
-	messages = messages_collection.find({'channel': channel})
+def get_messages(channel, last_id, step):
+	# Get at most X documents from the messages-collection where the channel
+	# value in the document is the same as the channel that is given in the URL.
+	# These documents must have an _id property that is less than the last_id.
+	if last_id == '0':
+		messages = messages_collection.find({'channel': channel})
+	else:
+		messages = messages_collection.find({"$and": [ {'channel': channel}, {'_id': {"$lt": ObjectId(last_id)}} ]})
+	
+	messages = list(messages.sort('_id', -1).limit(step))
 	
 	# The find() method returns a cursor. The dumps() method is used
-	# to create a JSON representation of the data.
-	return dumps(messages)
+	# to create a JSON representation of the data. Reverse the list.
+	return dumps(messages[::-1])

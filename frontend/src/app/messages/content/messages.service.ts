@@ -3,6 +3,7 @@
 /// <reference path="./see.d.ts"/>
 
 import { Injectable } from '@angular/core';
+import { URLSearchParams } from '@angular/http';
 import { AuthHttp } from 'angular2-jwt';
 import { Observable } from 'rxjs/Rx';
 import { Observer } from 'rxjs/Observer';
@@ -12,9 +13,19 @@ export class MessagesService {
 	public constructor(private http:AuthHttp) { }
 	
 	// Retrieve all messages from the "const" channel from the Flask API
-	public getMessages(channel: string) {
+	public getMessages(channel: string, last: any, step: number) {
+		let id: string = '0';
+		
+		if (last != null) {
+			id = last._id.$oid;
+		}
+		
+		let params = new URLSearchParams();
+		params.append('id', id);
+		params.append('step', step.toString());
+		
 		return this.http
-			.get('http://localhost:5000/api/' + channel + '/messages')
+			.get('http://localhost:5000/api/' + channel + '/messages', {search: params})
 			.map(response => response.json());
 	}
 	

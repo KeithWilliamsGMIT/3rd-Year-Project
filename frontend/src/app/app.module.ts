@@ -3,6 +3,7 @@ import { BrowserModule }  from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { HttpModule, RequestOptions } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { routes } from './app.routes';
 import { DefaultRequestOptions } from './app.requests';
@@ -29,6 +30,7 @@ import { MessagesMenuComponent } from './messages/menu/messages-menu.component';
 		// http://stackoverflow.com/questions/33721276/angular-2-no-provider-for-http
 		HttpModule,
 		FormsModule,
+		InfiniteScrollModule,
 		AuthenticationModule,
 		RouterModule.forRoot(routes)
 	],

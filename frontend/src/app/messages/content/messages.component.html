@@ -3,7 +3,7 @@
 	
 	<div class="table-row">
 		<div class="messages table-cell">
-			<div class="messages-inner">
+			<div class="messages-inner" infinite-scroll [infiniteScrollDistance]="0" [infiniteScrollThrottle]="500" [scrollWindow]="false" (scrolledUp)="onScrollUp()" #messagesDiv>
 				<!-- Display each message in a chat box -->
 				<div class="card" *ngFor="let message of messages;">
 					<div class="card-block chat" [ngClass]="{self: message.sender == this.authenticationService.getUsername(), other: message.sender != this.authenticationService.getUsername()}">
