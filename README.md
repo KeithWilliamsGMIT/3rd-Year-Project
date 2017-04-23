@@ -12,6 +12,8 @@ This project is hosted on Amazon Web Services (AWS). The project is live at [htt
 
 For more information you can see the [Wiki](https://github.com/KeithWilliamsGMIT/3rd-Year-Project/wiki) for this project.
 
+A video demonstrating how to use the application is available at [https://www.youtube.com/watch?v=3FTCXMDS6hA](https://www.youtube.com/watch?v=3FTCXMDS6hA).
+
 #### Setup
 This section of the documentation describes how to setup and run the application. First clone the repository.
 
